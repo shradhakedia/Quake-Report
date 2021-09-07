@@ -44,6 +44,15 @@ public final class QueryUtils {
      * Query the USGS dataset and return an {@link List<EarthquakeData>} object to represent a single earthquake.
      */
     public static List<EarthquakeData> fetchEarthquakeData(String requestUrl) {
+
+        try{
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Log.i(LOG_TAG,"TEST: FetchEarthquakeData()");
+
         //Create Url Object
         URL url = createUrl(requestUrl);
 
@@ -130,6 +139,9 @@ public final class QueryUtils {
     public static List<EarthquakeData> extractEarthquakes(String jsonResponse) {
 
         // If the JSON string is empty or null, then return early.
+        //Note: we are not using jsonResponse.isEmpty() as it returns true if length is 0 for
+        //the empty string but throws a null pointer exception when string is null(empty and null strings are different) but TextUtils returns true
+        //even when string is null so prefer using TextUtils to avoid crashing of the app in any situations;
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
